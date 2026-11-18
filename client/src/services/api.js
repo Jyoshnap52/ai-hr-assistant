@@ -26,9 +26,14 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    const message =
-      error.response?.data?.error ||
-      'Something went wrong while processing your request. Please try again.';
+    let message = error.response?.data?.error;
+    if (!message) {
+      if (error.code === 'ERR_NETWORK' || !error.response) {
+        message = 'Connecting to backend... Render is waking up (takes ~20-30s on free tier). Please try again in a few moments.';
+      } else {
+        message = error.message || 'Something went wrong while processing your request. Please try again.';
+      }
+    }
     return Promise.reject(new Error(message));
   }
 );
