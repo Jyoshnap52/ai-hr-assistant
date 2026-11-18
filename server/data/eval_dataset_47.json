@@ -1,0 +1,378 @@
+[
+  {
+    "id": "eval_01",
+    "question": "How many annual paid time off (PTO) leaves do full-time employees receive?",
+    "ground_truth": "Full-time employees receive 18 paid leaves per calendar year, accrued monthly at 1.5 days per month.",
+    "required_role": "Employee",
+    "expected_document": "Paid Leave & Time Off Policy",
+    "expected_keywords": ["18 paid leaves", "1.5 days per month", "calendar year"]
+  },
+  {
+    "id": "eval_02",
+    "question": "What is the maximum number of unused PTO days that can be carried forward into the next year?",
+    "ground_truth": "Unused paid leaves can be carried forward up to a maximum limit of 10 days into the following calendar year.",
+    "required_role": "Employee",
+    "expected_document": "Paid Leave & Time Off Policy",
+    "expected_keywords": ["maximum limit of 10 days", "carried forward"]
+  },
+  {
+    "id": "eval_03",
+    "question": "How many sick leaves and casual leaves are allocated annually?",
+    "ground_truth": "Employees receive 10 paid sick leaves and 6 casual emergency leaves annually.",
+    "required_role": "Employee",
+    "expected_document": "Paid Leave & Time Off Policy",
+    "expected_keywords": ["10 paid sick leaves", "6 casual emergency leaves"]
+  },
+  {
+    "id": "eval_04",
+    "question": "When is a medical certificate required for sick leave?",
+    "ground_truth": "A medical certificate from a licensed practitioner is required for sick leave exceeding 3 consecutive business days.",
+    "required_role": "Employee",
+    "expected_document": "Paid Leave & Time Off Policy",
+    "expected_keywords": ["medical certificate", "exceeding 3 consecutive business days"]
+  },
+  {
+    "id": "eval_05",
+    "question": "What are the maternity and parental leave entitlements for primary caregivers?",
+    "ground_truth": "Primary caregivers are eligible for 16 weeks of fully paid parental leave, and secondary caregivers receive 6 weeks.",
+    "required_role": "Employee",
+    "expected_document": "Paid Leave & Time Off Policy",
+    "expected_keywords": ["16 weeks", "fully paid parental leave", "primary caregivers"]
+  },
+  {
+    "id": "eval_06",
+    "question": "What are the core business hours and arrival window?",
+    "ground_truth": "Core business working hours are 9:00 AM to 5:00 PM EST, with a flexible arrival window between 8:00 AM and 10:00 AM.",
+    "required_role": "Employee",
+    "expected_document": "Employee Handbook 2026",
+    "expected_keywords": ["9:00 AM to 5:00 PM", "8:00 AM and 10:00 AM"]
+  },
+  {
+    "id": "eval_07",
+    "question": "How many days per week are employees permitted to work remotely under the hybrid policy?",
+    "ground_truth": "Employees in hybrid roles may work remotely up to 3 days per week with manager approval, with 2 designated in-office days (typically Tuesday and Thursday).",
+    "required_role": "Employee",
+    "expected_document": "Work-From-Home & Hybrid Policy",
+    "expected_keywords": ["up to 3 days per week", "Tuesday and Thursday"]
+  },
+  {
+    "id": "eval_08",
+    "question": "What equipment and allowances are provided for remote work setup?",
+    "ground_truth": "Each full-time employee is provided a high-end laptop, an ergonomic desk setup allowance of $500, and $100 monthly internet reimbursement.",
+    "required_role": "Employee",
+    "expected_document": "Employee Handbook 2026",
+    "expected_keywords": ["laptop", "$500", "allowance", "$100 monthly internet reimbursement"]
+  },
+  {
+    "id": "eval_09",
+    "question": "What is the policy on international remote work?",
+    "ground_truth": "Employees may work internationally from an approved country for up to 30 business days per calendar year with prior manager and People Operations written authorization.",
+    "required_role": "Employee",
+    "expected_document": "Work-From-Home & Hybrid Policy",
+    "expected_keywords": ["up to 30 business days", "prior manager and People Operations written authorization"]
+  },
+  {
+    "id": "eval_10",
+    "question": "How much health insurance premium is paid by the company?",
+    "ground_truth": "The company covers 100% of employee premium and 80% of dependent premiums through BlueCross BlueShield.",
+    "required_role": "Employee",
+    "expected_document": "Medical Insurance & Wellness Benefits",
+    "expected_keywords": ["100% of the employee premium", "80% of dependent premiums"]
+  },
+  {
+    "id": "eval_11",
+    "question": "What are the health insurance deductibles for individuals and families?",
+    "ground_truth": "Annual deductible is $500 for individuals and $1,200 for families.",
+    "required_role": "Employee",
+    "expected_document": "Medical Insurance & Wellness Benefits",
+    "expected_keywords": ["$500 for individuals", "$1,200 for families"]
+  },
+  {
+    "id": "eval_12",
+    "question": "What mental health and wellness benefits are provided?",
+    "ground_truth": "Employees receive 8 free confidential counseling sessions annually through EAP, plus a $60 monthly gym or wellness membership stipend.",
+    "required_role": "Employee",
+    "expected_document": "Medical Insurance & Wellness Benefits",
+    "expected_keywords": ["8 free confidential counseling sessions", "$60 monthly"]
+  },
+  {
+    "id": "eval_13",
+    "question": "What is the co-pay for generic prescription drugs and vision allowance?",
+    "ground_truth": "Generic prescription drugs have a $10 co-pay, and vision coverage includes an annual $250 allowance for prescription glasses or contact lenses.",
+    "required_role": "Employee",
+    "expected_document": "Medical Insurance & Wellness Benefits",
+    "expected_keywords": ["$10 co-pay", "$250 allowance"]
+  },
+  {
+    "id": "eval_14",
+    "question": "What is the code of conduct regarding internal project codebases and client data?",
+    "ground_truth": "Employees must maintain high standard of professional ethics, and confidentiality of internal project codebases and client data must be strictly preserved.",
+    "required_role": "Employee",
+    "expected_document": "Employee Handbook 2026",
+    "expected_keywords": ["confidentiality", "codebases", "strictly preserved"]
+  },
+  {
+    "id": "eval_15",
+    "question": "Can I work remotely without any in-office days?",
+    "ground_truth": "Employees in hybrid roles are expected in their designated regional office 2 days per week (typically Tuesday and Thursday).",
+    "required_role": "Employee",
+    "expected_document": "Work-From-Home & Hybrid Policy",
+    "expected_keywords": ["2 days per week", "regional office"]
+  },
+  {
+    "id": "eval_16",
+    "question": "What is the duration of a formal Performance Improvement Plan (PIP)?",
+    "ground_truth": "A formal PIP must span 30 to 60 calendar days with weekly documented checkpoints.",
+    "required_role": "Manager",
+    "expected_document": "Manager Disciplinary & Performance Improvement Policy",
+    "expected_keywords": ["30 to 60 calendar days", "weekly documented checkpoints"]
+  },
+  {
+    "id": "eval_17",
+    "question": "What percentage of deliverables must an employee achieve to successfully exit a PIP?",
+    "ground_truth": "The employee must meet at least 80% of documented deliverables to exit the PIP successfully.",
+    "required_role": "Manager",
+    "expected_document": "Manager Disciplinary & Performance Improvement Policy",
+    "expected_keywords": ["at least 80%", "documented deliverables"]
+  },
+  {
+    "id": "eval_18",
+    "question": "What is the disciplinary warning progression before termination review?",
+    "ground_truth": "Verbal counseling must precede a written warning. Two written warnings within a 12-month window allow the manager to request role reassignment or termination review with HR approval.",
+    "required_role": "Manager",
+    "expected_document": "Manager Disciplinary & Performance Improvement Policy",
+    "expected_keywords": ["Verbal counseling", "Two written warnings", "12-month window"]
+  },
+  {
+    "id": "eval_19",
+    "question": "How often must managers conduct 1:1 sessions and log milestone notes?",
+    "ground_truth": "Managers are required to conduct bi-weekly 1:1 sessions and log milestone notes into the internal HRIS quarterly review tracker.",
+    "required_role": "Manager",
+    "expected_document": "Manager Disciplinary & Performance Improvement Policy",
+    "expected_keywords": ["bi-weekly 1:1 sessions", "quarterly review tracker"]
+  },
+  {
+    "id": "eval_20",
+    "question": "What are the merit raise percentages for an 'Exceeds Expectations' rating?",
+    "ground_truth": "Employees with an 'Exceeds Expectations' rating (Top 15%) are eligible for an 8% to 12% annual salary increase.",
+    "required_role": "Manager",
+    "expected_document": "Engineering Department Promotion Bands & Merit Raise Matrix",
+    "expected_keywords": ["8% to 12%", "Exceeds Expectations", "Top 15%"]
+  },
+  {
+    "id": "eval_21",
+    "question": "What is the merit salary increase for a 'Strong Performer' rating?",
+    "ground_truth": "A rating of 'Strong Performer' (Middle 70%) provides a 4% to 6% annual salary increase.",
+    "required_role": "Manager",
+    "expected_document": "Engineering Department Promotion Bands & Merit Raise Matrix",
+    "expected_keywords": ["4% to 6%", "Middle 70%"]
+  },
+  {
+    "id": "eval_22",
+    "question": "What criteria are required for promotion from Senior to Staff Engineer?",
+    "ground_truth": "Promotion from Senior to Staff Engineer requires demonstrated cross-team architecture ownership, mentoring 2+ engineers, and department head sign-off.",
+    "required_role": "Manager",
+    "expected_document": "Engineering Department Promotion Bands & Merit Raise Matrix",
+    "expected_keywords": ["cross-team architecture ownership", "mentoring 2+ engineers"]
+  },
+  {
+    "id": "eval_23",
+    "question": "What is the base pay range for Vice President (L8) roles?",
+    "ground_truth": "Vice President (L8) base salary is $285,000 to $340,000, with a 35% annual target bonus and $150,000 in RSUs vesting over 4 years.",
+    "required_role": "HR Admin",
+    "expected_document": "Executive Compensation Bands & Retention Bonuses 2026",
+    "expected_keywords": ["$285,000 - $340,000", "35% annual target bonus", "$150,000 RSUs"]
+  },
+  {
+    "id": "eval_24",
+    "question": "What is the compensation package for Senior Vice President (L9)?",
+    "ground_truth": "Senior Vice President (L9) base pay is $350,000 to $425,000, with 45% annual target bonus and $300,000 RSUs.",
+    "required_role": "HR Admin",
+    "expected_document": "Executive Compensation Bands & Retention Bonuses 2026",
+    "expected_keywords": ["$350,000 - $425,000", "45% annual target bonus", "$300,000 RSUs"]
+  },
+  {
+    "id": "eval_25",
+    "question": "What is the clawback policy on key personnel retention bonuses?",
+    "ground_truth": "Retention bonuses totaling $1.2M are allocated for key technical leads subject to a 24-month clawback if voluntary departure occurs before Q4 2027.",
+    "required_role": "HR Admin",
+    "expected_document": "Executive Compensation Bands & Retention Bonuses 2026",
+    "expected_keywords": ["$1.2M", "24-month clawback", "Q4 2027"]
+  },
+  {
+    "id": "eval_26",
+    "question": "What is the required timeline to initiate an independent investigation for high-severity harassment claims?",
+    "ground_truth": "All formal harassment or whistleblower complaints must trigger an independent investigation within 48 business hours led by external legal counsel.",
+    "required_role": "HR Admin",
+    "expected_document": "Confidential Workplace Harassment Investigation & Severance Protocols",
+    "expected_keywords": ["within 48 business hours", "external legal counsel"]
+  },
+  {
+    "id": "eval_27",
+    "question": "What is the executive severance formula for Director+ roles in non-cause terminations?",
+    "ground_truth": "Severance defaults to 1 month of base pay per year of service (minimum 3 months, maximum 12 months) subject to mutual NDA and release of claims.",
+    "required_role": "HR Admin",
+    "expected_document": "Confidential Workplace Harassment Investigation & Severance Protocols",
+    "expected_keywords": ["1 month of base pay per year of service", "minimum 3 months, maximum 12 months"]
+  },
+  {
+    "id": "eval_28",
+    "question": "How are reporting individuals protected during whistleblower investigations?",
+    "ground_truth": "Identities of reporting individuals must remain anonymized under whistleblower protection laws.",
+    "required_role": "HR Admin",
+    "expected_document": "Confidential Workplace Harassment Investigation & Severance Protocols",
+    "expected_keywords": ["anonymized", "whistleblower protection laws"]
+  },
+  {
+    "id": "eval_29",
+    "question": "What are my casual leaves entitlement per year?",
+    "ground_truth": "Employees receive 6 casual emergency leaves annually.",
+    "required_role": "Employee",
+    "expected_document": "Paid Leave & Time Off Policy",
+    "expected_keywords": ["6 casual emergency leaves"]
+  },
+  {
+    "id": "eval_30",
+    "question": "Does unused sick leave carry forward into the following year?",
+    "ground_truth": "Only annual paid time off (PTO) can be carried forward up to 10 days; sick leave does not carry forward.",
+    "required_role": "Employee",
+    "expected_document": "Paid Leave & Time Off Policy",
+    "expected_keywords": ["annual paid time off", "10 days"]
+  },
+  {
+    "id": "eval_31",
+    "question": "What monthly reimbursement is available for home internet expenses?",
+    "ground_truth": "Full-time employees receive a $100 monthly internet reimbursement.",
+    "required_role": "Employee",
+    "expected_document": "Employee Handbook 2026",
+    "expected_keywords": ["$100 monthly internet reimbursement"]
+  },
+  {
+    "id": "eval_32",
+    "question": "How much is the ergonomic desk setup allowance for new full-time hires?",
+    "ground_truth": "Full-time employees receive an ergonomic desk setup allowance of $500.",
+    "required_role": "Employee",
+    "expected_document": "Employee Handbook 2026",
+    "expected_keywords": ["$500", "ergonomic desk setup allowance"]
+  },
+  {
+    "id": "eval_33",
+    "question": "Can an employee take 4 consecutive sick days without a doctor's note?",
+    "ground_truth": "No, a medical certificate from a licensed practitioner is required for sick leave exceeding 3 consecutive business days.",
+    "required_role": "Employee",
+    "expected_document": "Paid Leave & Time Off Policy",
+    "expected_keywords": ["medical certificate", "exceeding 3 consecutive business days"]
+  },
+  {
+    "id": "eval_34",
+    "question": "What is the paid leave duration for secondary caregivers during parental leave?",
+    "ground_truth": "Secondary caregivers receive 6 weeks of fully paid leave.",
+    "required_role": "Employee",
+    "expected_document": "Paid Leave & Time Off Policy",
+    "expected_keywords": ["6 weeks", "fully paid leave"]
+  },
+  {
+    "id": "eval_35",
+    "question": "What is the individual deductible under the company health insurance plan?",
+    "ground_truth": "The annual deductible is $500 for individuals.",
+    "required_role": "Employee",
+    "expected_document": "Medical Insurance & Wellness Benefits",
+    "expected_keywords": ["$500 for individuals"]
+  },
+  {
+    "id": "eval_36",
+    "question": "How many free counseling sessions are provided annually?",
+    "ground_truth": "Employees are entitled to 8 free confidential counseling sessions annually through EAP.",
+    "required_role": "Employee",
+    "expected_document": "Medical Insurance & Wellness Benefits",
+    "expected_keywords": ["8 free confidential counseling sessions", "EAP"]
+  },
+  {
+    "id": "eval_37",
+    "question": "What is the monthly stipend provided for gym or wellness membership?",
+    "ground_truth": "Employees receive a $60 monthly gym or wellness membership stipend.",
+    "required_role": "Employee",
+    "expected_document": "Medical Insurance & Wellness Benefits",
+    "expected_keywords": ["$60 monthly", "gym or wellness"]
+  },
+  {
+    "id": "eval_38",
+    "question": "What is the annual vision allowance for glasses or contacts?",
+    "ground_truth": "Vision coverage includes an annual $250 allowance for prescription glasses or contact lenses.",
+    "required_role": "Employee",
+    "expected_document": "Medical Insurance & Wellness Benefits",
+    "expected_keywords": ["$250 allowance", "glasses or contact lenses"]
+  },
+  {
+    "id": "eval_39",
+    "question": "Are international remote work approvals handled automatically?",
+    "ground_truth": "No, international remote work up to 30 days requires prior written authorization from both the manager and People Operations.",
+    "required_role": "Employee",
+    "expected_document": "Work-From-Home & Hybrid Policy",
+    "expected_keywords": ["prior manager and People Operations written authorization"]
+  },
+  {
+    "id": "eval_40",
+    "question": "What severance is provided if an employee fails a Performance Improvement Plan?",
+    "ground_truth": "Failure to meet PIP criteria initiates formal separation with standard 2 weeks severance.",
+    "required_role": "Manager",
+    "expected_document": "Manager Disciplinary & Performance Improvement Policy",
+    "expected_keywords": ["standard 2 weeks severance"]
+  },
+  {
+    "id": "eval_41",
+    "question": "What raise does an employee with a 'Needs Development' rating receive?",
+    "ground_truth": "Employees rated 'Needs Development' (Bottom 15%) receive a 0% salary increase and become eligible for a coaching plan.",
+    "required_role": "Manager",
+    "expected_document": "Engineering Department Promotion Bands & Merit Raise Matrix",
+    "expected_keywords": ["0% increase", "coaching plan"]
+  },
+  {
+    "id": "eval_42",
+    "question": "What is the minimum severance for Director+ non-cause terminations?",
+    "ground_truth": "The minimum severance is 3 months of base pay (maximum 12 months).",
+    "required_role": "HR Admin",
+    "expected_document": "Confidential Workplace Harassment Investigation & Severance Protocols",
+    "expected_keywords": ["minimum 3 months", "maximum 12 months"]
+  },
+  {
+    "id": "eval_43",
+    "question": "What is the annual target bonus percentage for Vice Presidents (L8)?",
+    "ground_truth": "The annual target bonus for Vice Presidents is 35%.",
+    "required_role": "HR Admin",
+    "expected_document": "Executive Compensation Bands & Retention Bonuses 2026",
+    "expected_keywords": ["35% annual target bonus"]
+  },
+  {
+    "id": "eval_44",
+    "question": "How is full-time PTO accrued throughout the year?",
+    "ground_truth": "PTO is accrued monthly at 1.5 days per month, totaling 18 days per calendar year.",
+    "required_role": "Employee",
+    "expected_document": "Paid Leave & Time Off Policy",
+    "expected_keywords": ["accrued monthly at 1.5 days per month"]
+  },
+  {
+    "id": "eval_45",
+    "question": "What insurance provider administers the company health coverage?",
+    "ground_truth": "Health insurance is provided through BlueCross BlueShield.",
+    "required_role": "Employee",
+    "expected_document": "Medical Insurance & Wellness Benefits",
+    "expected_keywords": ["BlueCross BlueShield"]
+  },
+  {
+    "id": "eval_46",
+    "question": "Who must sign off on an engineering promotion from Senior to Staff?",
+    "ground_truth": "Engineering promotion to Staff requires sign-off from the department head along with architecture ownership and mentoring.",
+    "required_role": "Manager",
+    "expected_document": "Engineering Department Promotion Bands & Merit Raise Matrix",
+    "expected_keywords": ["department head sign-off"]
+  },
+  {
+    "id": "eval_47",
+    "question": "What is the vesting schedule for executive equity grants?",
+    "ground_truth": "Executive equity grants (such as $150,000 RSUs for VP) vest over 4 years.",
+    "required_role": "HR Admin",
+    "expected_document": "Executive Compensation Bands & Retention Bonuses 2026",
+    "expected_keywords": ["vesting over 4 years", "RSUs"]
+  }
+]

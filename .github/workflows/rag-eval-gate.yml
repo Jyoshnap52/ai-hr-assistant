@@ -1,0 +1,41 @@
+name: RAG Evaluation & Quality Gate CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  rag-evaluation:
+    name: RAG Pipeline Quality Gate (RAGAS + Ablation)
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: server
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+          cache-dependency-path: server/package-lock.json
+
+      - name: Install Server Dependencies
+        run: npm ci
+
+      - name: Run RAG Generation Quality & CI Gate Evaluator
+        run: npm run eval
+
+      - name: Publish Ablation & Evaluation Summary to GitHub Action Job
+        if: always()
+        run: |
+          if [ -f reports/ablation_report.md ]; then
+            echo "## 📊 RAG Evaluation & Retrieval Ablation Table" >> $GITHUB_STEP_SUMMARY
+            cat reports/ablation_report.md >> $GITHUB_STEP_SUMMARY
+          fi
