@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import { config } from './env.js';
 
-export let isMemoryMode = false;
+export let isMemoryMode = true;
 export const memoryStore = {
   users: [],
   employees: [],
@@ -15,10 +15,16 @@ export const memoryStore = {
 };
 
 export const connectDB = async () => {
+  // If no external MONGODB_URI configured in production, use in-memory store directly
+  if (!process.env.MONGODB_URI) {
+    console.log('⚡ No external MONGODB_URI configured. Initializing High-Performance In-Memory Data Store...');
+    isMemoryMode = true;
+    return;
+  }
+
   try {
-    // Attempt MongoDB connection with 3-second timeout
     const options = {
-      serverSelectionTimeoutMS: 3000
+      serverSelectionTimeoutMS: 2000
     };
     await mongoose.connect(config.mongoUri, options);
     console.log('✅ MongoDB connected successfully:', config.mongoUri);

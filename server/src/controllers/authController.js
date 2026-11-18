@@ -17,7 +17,8 @@ export async function login(req, res) {
     }
 
     let user = null;
-    if (!isMemoryMode) {
+    const isLiveMongo = mongoose.connection && mongoose.connection.readyState === 1 && !isMemoryMode;
+    if (isLiveMongo) {
       user = await User.findOne({ email: email.toLowerCase() });
     } else {
       user = memoryStore.users.find((u) => u.email.toLowerCase() === email.toLowerCase());

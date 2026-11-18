@@ -41,6 +41,15 @@ export async function seedInitialData() {
       department: 'Engineering',
       employeeId: 'EMP-1002',
       avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150'
+    },
+    {
+      name: 'Alex Rivera',
+      email: 'alex.rivera@company.com',
+      password: employeePassword,
+      role: 'Employee',
+      department: 'Product & Design',
+      employeeId: 'EMP-1003',
+      avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150'
     }
   ];
 

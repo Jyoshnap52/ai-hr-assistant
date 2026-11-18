@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken';
+import mongoose from 'mongoose';
 import { config } from '../config/env.js';
 import { isMemoryMode, memoryStore } from '../config/db.js';
 import { User } from '../models/User.js';
@@ -14,7 +15,8 @@ export const requireAuth = async (req, res, next) => {
     const decoded = jwt.verify(token, config.jwtSecret);
 
     let user = null;
-    if (!isMemoryMode) {
+    const isLiveMongo = mongoose.connection && mongoose.connection.readyState === 1 && !isMemoryMode;
+    if (isLiveMongo) {
       user = await User.findById(decoded.id).select('-password');
     } else {
       user = memoryStore.users.find((u) => String(u._id || u.id) === String(decoded.id));
