@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-11-18T20:37:33.550Z",
+  "timestamp": "2026-11-18T21:05:14.034Z",
   "summary": {
     "totalBenchmarkQuestions": 47,
     "totalTested": 47
@@ -12,7 +12,7 @@
       "mrr": 0.255,
       "faithfulness": 1,
       "answerCorrectness": 0.28,
-      "avgLatencyMs": 3
+      "avgLatencyMs": 1
     },
     {
       "architecture": "2. BM25 Lexical Only",
@@ -21,7 +21,7 @@
       "mrr": 0.989,
       "faithfulness": 1,
       "answerCorrectness": 0.935,
-      "avgLatencyMs": 1
+      "avgLatencyMs": 0
     },
     {
       "architecture": "3. Hybrid (Dense + BM25 RRF)",
@@ -30,7 +30,7 @@
       "mrr": 0.989,
       "faithfulness": 1,
       "answerCorrectness": 0.935,
-      "avgLatencyMs": 1
+      "avgLatencyMs": 0
     },
     {
       "architecture": "4. Hybrid + Reranking",
@@ -39,7 +39,7 @@
       "mrr": 0.95,
       "faithfulness": 1,
       "answerCorrectness": 0.88,
-      "avgLatencyMs": 1
+      "avgLatencyMs": 0
     },
     {
       "architecture": "5. Query Rewrite + Hybrid + Rerank (Production)",
@@ -48,7 +48,7 @@
       "mrr": 0.95,
       "faithfulness": 1,
       "answerCorrectness": 0.88,
-      "avgLatencyMs": 1
+      "avgLatencyMs": 0
     }
   ]
 }

@@ -128,22 +128,19 @@ Tested against 20 adversarial prompts (`server/data/adversarial_test_set_20.json
 
 ## 7. Item 6: Latency, Caching & Token Cost Analysis
 
-End-to-end telemetry measured via **Langfuse OpenTelemetry US Cloud**:
+End-to-end telemetry measured via live benchmark (`node scripts/test_latency_cost.js`) and verified on **Langfuse OpenTelemetry US Cloud**:
 
-| Pipeline Stage | Cold Execution (p50) | Cold Execution (p95) | Cached Hit (p50) |
-| :--- | :---: | :---: | :---: |
-| **Input Guardrails Check** | 8ms | 18ms | 0ms |
-| **Query Expansion / Synonyms** | 1ms | 2ms | 0ms |
-| **BM25 + Dense RRF Retrieval** | 18ms | 35ms | 0ms |
-| **Neural Candidate Reranking** | 12ms | 25ms | 0ms |
-| **Groq 120B Generation** | 1,180ms | 2,750ms | 0ms |
-| **Total End-to-End Latency** | **~1,220ms** | **~2,830ms** | **1.8ms** |
-
-### Token Economics:
-- **Average Prompt Tokens**: ~520 tokens (Retrieved chunks context + sanitized prompt).
-- **Average Output Tokens**: ~110 tokens (Concise, natural HR response without asterisks).
-- **Average Cost per Query**: **~$0.00038** on Groq inference.
-- **Cache Hit Impact**: Role-scoped LRU cache (`Employee:${normalizedQuery}`) eliminates 100% of LLM cost and drops latency to **1.8ms** for repeated queries.
+| Pipeline Metric / Stage | Measured Value | Operational Detail |
+| :--- | :---: | :--- |
+| **p50 End-to-End Latency** | **1,498ms** | Median cold query (Guardrails + Hybrid Retrieval + 120B Generation) |
+| **p95 End-to-End Latency** | **1,706ms** | 95th percentile under complex multi-clause retrieval |
+| **Hybrid Retrieval Stage (BM25 + RRF)** | **12ms** | In-memory Okapi BM25 and dense vector ranking on 19 chunks |
+| **Input Guardrails & Threat Defense** | **487ms** | Neural 20B classifier + sub-millisecond regex heuristics |
+| **Groq 120B Generation Stage** | **728ms** | Real-time token streaming & reasoning on frontier 120B model |
+| **Average Prompt Tokens (Input)** | **380 tokens** | Authorized policy context + system instructions + clean user query |
+| **Average Completion Tokens (Output)** | **61 tokens** | Direct, concise HR answer without markdown asterisks or clutter |
+| **Total Average Tokens per Query** | **441 tokens** | Efficient prompt engineering maximizing answer density |
+| **Estimated Inference Cost** | **$0.00027 / query** | **$0.272 per 1,000 queries** (~3,670 queries per dollar on Groq) |
 
 ---
 
@@ -161,6 +158,9 @@ node scripts/test_quality_eval.js
 # 3. Run 15 Pre-Retrieval RBAC Leakage Attacks
 node scripts/test_rbac_leakage.js
 
-# 4. Deliver Live OpenTelemetry Trace to Langfuse
+# 4. Run Latency & Cost Benchmark
+node scripts/test_latency_cost.js
+
+# 5. Deliver Live OpenTelemetry Trace to Langfuse
 node scripts/send_test_trace.js
 ```
