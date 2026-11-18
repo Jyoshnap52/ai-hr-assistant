@@ -20,7 +20,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Healthcheck Route
-app.get('/api/health', (req, res) => {
+app.get(['/health', '/api/health'], (req, res) => {
   res.json({
     status: 'healthy',
     app: 'PeopleAI – Enterprise HR Assistant',
@@ -29,14 +29,21 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-// API Routes
+// API Routes (Support both /api and root paths so it never 404s)
 app.use('/api/auth', authRoutes);
+app.use('/auth', authRoutes);
 app.use('/api/documents', documentRoutes);
+app.use('/documents', documentRoutes);
 app.use('/api/ai', aiRoutes);
+app.use('/ai', aiRoutes);
 app.use('/api/resumes', resumeRoutes);
+app.use('/resumes', resumeRoutes);
 app.use('/api/employees', employeeRoutes);
+app.use('/employees', employeeRoutes);
 app.use('/api/onboarding', onboardingRoutes);
+app.use('/onboarding', onboardingRoutes);
 app.use('/api/analytics', analyticsRoutes);
+app.use('/analytics', analyticsRoutes);
 
 // Global Error Handler
 app.use((err, req, res, next) => {
