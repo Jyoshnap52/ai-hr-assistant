@@ -1,7 +1,12 @@
 import axios from 'axios';
 
 // Direct backend endpoint to avoid Vite dev server http-proxy EPERM resolution issues
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:5050/api';
+let rawUrl = import.meta.env.VITE_API_URL || 'http://127.0.0.1:5050/api';
+rawUrl = rawUrl.trim().replace(/\/+$/, '');
+if (!rawUrl.endsWith('/api')) {
+  rawUrl += '/api';
+}
+const API_BASE_URL = rawUrl;
 
 const api = axios.create({
   baseURL: API_BASE_URL,
