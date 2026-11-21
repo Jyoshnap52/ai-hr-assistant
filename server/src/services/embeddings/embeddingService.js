@@ -1,9 +1,9 @@
-/**
- * High-performance vector embedding generator (384-dimensional dense representation).
- * Computes semantic dense feature vectors for document chunks and user queries.
- */
+// server/src/services/embeddings/embeddingService.js
+import { generateNeuralEmbedding } from './hfEmbeddingService.js';
+
 const VECTOR_DIM = 384;
 
+// 1. Old Hashing Algorithm (Kept as baseline for ablation comparison)
 function hashString(str, seed = 0) {
   let h1 = 0xdeadbeef ^ seed, h2 = 0x41c6ce57 ^ seed;
   for (let i = 0, ch; i < str.length; i++) {
@@ -16,7 +16,7 @@ function hashString(str, seed = 0) {
   return 4294967296 * (2097151 & h2) + (h1 >>> 0);
 }
 
-export function generateEmbedding(text) {
+function generateHashedEmbedding(text) {
   if (!text || typeof text !== 'string') {
     return new Array(VECTOR_DIM).fill(0);
   }
@@ -29,11 +29,9 @@ export function generateEmbedding(text) {
 
   for (let i = 0; i < words.length; i++) {
     const word = words[i];
-    // Hash unigram
     const h1 = hashString(word) % VECTOR_DIM;
     vector[h1] += 1.5;
 
-    // Hash bigrams if available
     if (i < words.length - 1) {
       const bigram = word + '_' + words[i + 1];
       const h2 = hashString(bigram) % VECTOR_DIM;
@@ -41,25 +39,29 @@ export function generateEmbedding(text) {
     }
   }
 
-  // L2 Normalize vector
+  // Normalize
   let norm = 0;
-  for (let i = 0; i < VECTOR_DIM; i++) {
-    norm += vector[i] * vector[i];
-  }
+  for (let i = 0; i < VECTOR_DIM; i++) norm += vector[i] * vector[i];
   norm = Math.sqrt(norm);
-
   if (norm > 0) {
-    for (let i = 0; i < VECTOR_DIM; i++) {
-      vector[i] = vector[i] / norm;
-    }
+    for (let i = 0; i < VECTOR_DIM; i++) vector[i] /= norm;
   }
-
   return vector;
 }
 
-/**
- * Computes Cosine Similarity between vector A and vector B
- */
+// 2. The Universal Generator with Switch
+export async function generateEmbedding(text, isQuery = false) {
+  const mode = process.env.EMBEDDER || 'bge'; // Defaults to real Hugging Face model
+
+  if (mode === 'hashed') {
+    return generateHashedEmbedding(text);
+  }
+
+  // Real BGE Hugging Face model
+  return await generateNeuralEmbedding(text, isQuery);
+}
+
+// 3. True Cosine Similarity
 export function cosineSimilarity(vecA, vecB) {
   if (!vecA || !vecB || vecA.length !== vecB.length) return 0;
   let dotProduct = 0;
@@ -74,5 +76,6 @@ export function cosineSimilarity(vecA, vecB) {
 
   const denominator = Math.sqrt(normA) * Math.sqrt(normB);
   if (denominator === 0) return 0;
+
   return dotProduct / denominator;
 }

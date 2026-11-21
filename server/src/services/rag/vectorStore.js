@@ -23,21 +23,24 @@ export async function addChunksToVectorStore(chunks, documentId, documentTitle, 
   const version = options.version || '1.0';
   const isSuperseded = options.isSuperseded || false;
 
-  const preparedChunks = chunks.map((chunk, index) => {
-    const embedding = generateEmbedding(chunk.content);
-    return {
-      documentId,
-      documentTitle,
-      chunkIndex: index,
-      content: chunk.content,
-      section: chunk.section || 'General',
-      pageNumber: chunk.pageNumber || 1,
-      accessRoles,
-      version,
-      isSuperseded,
-      embedding
-    };
-  });
+  // Use Promise.all with async so await works properly
+  const preparedChunks = await Promise.all(
+    chunks.map(async (chunk, index) => {
+      const embedding = await generateEmbedding(chunk.content, false);
+      return {
+        documentId,
+        documentTitle,
+        chunkIndex: index,
+        content: chunk.content,
+        section: chunk.section || 'General',
+        pageNumber: chunk.pageNumber || 1,
+        accessRoles,
+        version,
+        isSuperseded,
+        embedding
+      };
+    })
+  );
 
   if (isMongoLive()) {
     await DocumentChunk.insertMany(preparedChunks);
@@ -58,7 +61,6 @@ export async function getEligibleChunks(userRole = 'Employee') {
   let chunks = [];
 
   if (isMongoLive()) {
-    // Mongo pre-retrieval query filter: user role must be in accessRoles, not superseded
     chunks = await DocumentChunk.find({
       accessRoles: userRole,
       isSuperseded: { $ne: true }
@@ -79,17 +81,23 @@ export async function getEligibleChunks(userRole = 'Employee') {
  */
 export async function denseVectorSearch(query, eligibleChunks, topK = 8) {
   if (!eligibleChunks || eligibleChunks.length === 0) return [];
-  const queryEmbedding = generateEmbedding(query);
+  const queryEmbedding = await generateEmbedding(query, true);
 
-  const scored = eligibleChunks.map((chunk, idx) => {
-    const chunkEmbed = chunk.embedding && chunk.embedding.length ? chunk.embedding : generateEmbedding(chunk.content);
-    const score = cosineSimilarity(queryEmbedding, chunkEmbed);
-    return {
-      chunk,
-      denseScore: score,
-      idx
-    };
-  });
+  // Use Promise.all with async
+  const scored = await Promise.all(
+    eligibleChunks.map(async (chunk, idx) => {
+      const chunkEmbed =
+        chunk.embedding && chunk.embedding.length
+          ? chunk.embedding
+          : await generateEmbedding(chunk.content, false);
+      const score = cosineSimilarity(queryEmbedding, chunkEmbed);
+      return {
+        chunk,
+        denseScore: score,
+        idx
+      };
+    })
+  );
 
   scored.sort((a, b) => b.denseScore - a.denseScore);
   return scored.slice(0, topK);
@@ -113,7 +121,6 @@ export function sparseBM25Search(query, eligibleChunks, topK = 8) {
 
 /**
  * Reciprocal Rank Fusion (RRF) combining Dense and Sparse rankings
- * Formula: RRF(d) = 1 / (k + rank_dense) + 1 / (k + rank_bm25) where k = 60
  */
 export function reciprocalRankFusion(denseResults, bm25Results, k = 60) {
   const scoreMap = new Map();
@@ -153,12 +160,6 @@ export function reciprocalRankFusion(denseResults, bm25Results, k = 60) {
 
 /**
  * Unified Search with Full Ablation Mode Support
- * Supported modes:
- * - 'vector_only'
- * - 'bm25_only'
- * - 'hybrid_rrf'
- * - 'hybrid_rerank'
- * - 'rewrite_hybrid_rerank' (Production standard)
  */
 export async function similaritySearch(query, topK = 4, options = {}) {
   const userRole = options.userRole || 'Employee';
@@ -194,7 +195,7 @@ export async function similaritySearch(query, topK = 4, options = {}) {
   const denseCandidates = await denseVectorSearch(searchQuery, eligibleChunks, candidatePoolSize);
   const sparseCandidates = sparseBM25Search(searchQuery, eligibleChunks, candidatePoolSize);
 
-  // If sparse candidates exist, filter out weak dense noise (denseScore < 0.22 without BM25 match)
+  // If sparse candidates exist, filter out weak dense noise
   const filteredDense = denseCandidates.filter(
     (d) => d.denseScore >= 0.22 || sparseCandidates.some((s) => s.chunk.documentTitle === d.chunk.documentTitle)
   );
@@ -233,6 +234,9 @@ export async function similaritySearch(query, topK = 4, options = {}) {
     })
   );
 }
+
+// Alias for backwards compatibility
+export const searchVectorStore = similaritySearch;
 
 function formatChunkOutput(chunk, score, retrievalMethod, extra = {}) {
   const c = chunk?.toObject ? chunk.toObject() : (chunk || {});

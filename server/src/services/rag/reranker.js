@@ -1,118 +1,86 @@
-/**
- * Contextual Reranker Engine
- * Implements two-stage retrieval refinement:
- * Stage 1: Candidate retrieval (top 8 via Hybrid RRF)
- * Stage 2: Reranking & precision filtering down to top K (e.g. top 4)
- */
+// server/src/services/rag/reranker.js
+import { AutoTokenizer, AutoModelForSequenceClassification } from '@huggingface/transformers';
 
-import { getGroqCompletion } from '../ai/groqService.js';
+const MODEL_ID = 'Xenova/ms-marco-MiniLM-L-6-v2';
 
-/**
- * Fast cross-encoder relevance scoring heuristic
- * Computes exact phrase matches, term co-occurrences, and proximity bonuses.
- */
-export function fastHeuristicRerank(query, chunkContent) {
-  if (!chunkContent || typeof chunkContent !== 'string') return 0.05;
-  if (!query || typeof query !== 'string') return 0.05;
+let tokenizer = null;
+let model = null;
+let isLoading = false;
 
-  const qLower = query.toLowerCase();
-  const cLower = chunkContent.toLowerCase();
-
-  let score = 0;
-
-  // Exact phrase match bonus
-  if (cLower.includes(qLower)) {
-    score += 0.45;
-  }
-
-  // Token coverage
-  const qTokens = qLower.replace(/[^a-z0-9\s]/g, ' ').split(/\s+/).filter((w) => w.length > 2);
-  if (qTokens.length === 0) return 0.1;
-
-  let matchedTokens = 0;
-  for (const token of qTokens) {
-    if (cLower.includes(token)) {
-      matchedTokens++;
-    }
-  }
-  const tokenCoverage = matchedTokens / qTokens.length;
-  score += tokenCoverage * 0.4;
-
-  // Header/Section title alignment bonus
-  const firstLine = cLower.split('\n')[0] || '';
-  for (const token of qTokens) {
-    if (firstLine.includes(token)) {
-      score += 0.15;
-      break;
-    }
-  }
-
-  return Math.min(1.0, score);
+function sigmoid(x) {
+  return 1 / (1 + Math.exp(-x));
 }
 
 /**
- * High-precision LLM-powered reranker for top candidate refinement.
- * Scores candidate chunks from 0.00 to 1.00 based on factual relevance to the query.
+ * Loads the Cross-Encoder Model (Singleton)
  */
-export async function rerankCandidates(query, candidates, topK = 4, useLLM = false) {
-  if (!candidates || candidates.length === 0) return [];
-  if (candidates.length <= topK && !useLLM) return candidates;
-
-  if (!useLLM) {
-    // Stage 2 fast heuristic reranker
-    const reranked = candidates.map((item) => {
-      const hScore = fastHeuristicRerank(query, item.content);
-      const combinedScore = (item.score || item.rrfScore || 0.5) * 0.5 + hScore * 0.5;
-      return {
-        ...item,
-        rerankScore: Number(combinedScore.toFixed(4))
-      };
-    });
-
-    reranked.sort((a, b) => b.rerankScore - a.rerankScore);
-    return reranked.slice(0, topK);
-  }
-
-  // LLM Reranker for production-grade evaluation and precision
-  try {
-    const candidateSummaries = candidates
-      .slice(0, 8)
-      .map((c, i) => `[Candidate ${i + 1}] (${c.documentTitle}):\n${c.content.slice(0, 300)}...`)
-      .join('\n\n');
-
-    const prompt = `You are an expert search reranker for an enterprise HR retrieval system.
-Given the User Query and a list of Candidate Chunks, output a JSON array of the top candidate indices sorted by relevance, along with a relevance score between 0.0 and 1.0.
-
-User Query: "${query}"
-
-Candidates:
-${candidateSummaries}
-
-Respond ONLY with a valid JSON array like this:
-[{"index": 1, "score": 0.95}, {"index": 3, "score": 0.82}]`;
-
-    const rawResponse = await getGroqCompletion('You are a JSON search ranking evaluator.', prompt);
-    const jsonMatch = rawResponse.match(/\[.*\]/s);
-    if (jsonMatch) {
-      const parsed = JSON.parse(jsonMatch[0]);
-      const reordered = [];
-      for (const rank of parsed) {
-        const orig = candidates[rank.index - 1];
-        if (orig) {
-          reordered.push({
-            ...orig,
-            rerankScore: rank.score
-          });
-        }
-      }
-      if (reordered.length > 0) {
-        return reordered.slice(0, topK);
-      }
+export async function getCrossEncoder() {
+  if (tokenizer && model) return { tokenizer, model };
+  if (isLoading) {
+    while (isLoading) {
+      await new Promise((resolve) => setTimeout(resolve, 50));
     }
-  } catch (err) {
-    console.warn('LLM Reranker fallback to heuristic:', err.message);
+    return { tokenizer, model };
   }
 
-  // Fallback to heuristic
-  return candidates.slice(0, topK);
+  isLoading = true;
+  try {
+    console.log(`🤖 Loading Neural Cross-Encoder Reranker: ${MODEL_ID}...`);
+    tokenizer = await AutoTokenizer.from_pretrained(MODEL_ID);
+    model = await AutoModelForSequenceClassification.from_pretrained(MODEL_ID);
+    console.log(`✅ Cross-Encoder loaded successfully.`);
+  } catch (err) {
+    console.error('❌ Failed to load Cross-Encoder:', err.message);
+    throw err;
+  } finally {
+    isLoading = false;
+  }
+
+  return { tokenizer, model };
+}
+
+/**
+ * Reranks candidate document chunks using deep Cross-Attention.
+ * @param {string} query - The user search query.
+ * @param {Array} candidates - The top candidates from Stage 1 (Hybrid RRF).
+ * @param {number} topK - Number of final chunks to return.
+ * @returns {Promise<Array>} Reranked candidates sorted by neural relevance score.
+ */
+export async function rerankCandidates(query, candidates, topK = 4) {
+  if (!candidates || candidates.length === 0) return [];
+  if (candidates.length <= 1) return candidates;
+
+  try {
+    const { tokenizer: tok, model: mdl } = await getCrossEncoder();
+
+    const scoredCandidates = await Promise.all(
+      candidates.map(async (candidate) => {
+        const title = candidate.documentTitle ? `[Document: ${candidate.documentTitle}] ` : '';
+        const chunkText = title + (candidate.content || candidate.text || '');
+        const inputs = await tok(query, {
+          text_pair: chunkText,
+          padding: true,
+          truncation: true
+        });
+
+        const output = await mdl(inputs);
+        const rawLogit = output.logits.data[0];
+        const relevanceScore = sigmoid(rawLogit);
+
+        return {
+          ...candidate,
+          rerankScore: Number(relevanceScore.toFixed(4)),
+          rawLogit: Number(rawLogit.toFixed(2))
+        };
+      })
+    );
+
+    // Sort descending by neural cross-encoder relevance score
+    scoredCandidates.sort((a, b) => b.rerankScore - a.rerankScore);
+
+    return scoredCandidates.slice(0, topK);
+  } catch (err) {
+    console.warn('⚠️ Cross-encoder rerank fallback:', err.message);
+    return candidates.slice(0, topK);
+  }
 }

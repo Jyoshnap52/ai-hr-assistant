@@ -1,0 +1,212 @@
+[
+  {
+    "id": "P01",
+    "query": "Can I do my job from my couch on Mondays and Fridays?",
+    "targetDocTitle": "Employee Handbook 2026",
+    "category": "Remote Work",
+    "requiredRole": "Employee"
+  },
+  {
+    "id": "P02",
+    "query": "How many days off can I take for leisure and family trips each year?",
+    "targetDocTitle": "Paid Leave & Time Off Policy",
+    "category": "PTO",
+    "requiredRole": "Employee"
+  },
+  {
+    "id": "P03",
+    "query": "What kind of time off do new moms get after giving birth?",
+    "targetDocTitle": "Paid Leave & Time Off Policy",
+    "category": "Parental Leave",
+    "requiredRole": "Employee"
+  },
+  {
+    "id": "P04",
+    "query": "Do I need to see a physician if I am sick in bed for four days?",
+    "targetDocTitle": "Paid Leave & Time Off Policy",
+    "category": "Sick Leave",
+    "requiredRole": "Employee"
+  },
+  {
+    "id": "P05",
+    "query": "Does the company help pay for my monthly gym membership or fitness classes?",
+    "targetDocTitle": "Medical Insurance & Wellness Benefits",
+    "category": "Wellness",
+    "requiredRole": "Employee"
+  },
+  {
+    "id": "P06",
+    "query": "How much money can I expense to set up my home office desk and chair?",
+    "targetDocTitle": "Employee Handbook 2026",
+    "category": "Equipment",
+    "requiredRole": "Employee"
+  },
+  {
+    "id": "P07",
+    "query": "Will the company pitch in to cover my home broadband internet bill?",
+    "targetDocTitle": "Employee Handbook 2026",
+    "category": "Allowances",
+    "requiredRole": "Employee"
+  },
+  {
+    "id": "P08",
+    "query": "What are the rules if I want to roll over unused vacation days into next year?",
+    "targetDocTitle": "Paid Leave & Time Off Policy",
+    "category": "PTO Rollover",
+    "requiredRole": "Employee"
+  },
+  {
+    "id": "P09",
+    "query": "Can I talk to a mental health counselor or therapist for free?",
+    "targetDocTitle": "Medical Insurance & Wellness Benefits",
+    "category": "Mental Health",
+    "requiredRole": "Employee"
+  },
+  {
+    "id": "P10",
+    "query": "What is the deductible out of my own pocket for individual health coverage?",
+    "targetDocTitle": "Medical Insurance & Wellness Benefits",
+    "category": "Health Insurance",
+    "requiredRole": "Employee"
+  },
+  {
+    "id": "P11",
+    "query": "How flexible are my morning arrival hours at the office?",
+    "targetDocTitle": "Employee Handbook 2026",
+    "category": "Core Hours",
+    "requiredRole": "Employee"
+  },
+  {
+    "id": "P12",
+    "query": "How much paternity leave do secondary caregivers receive?",
+    "targetDocTitle": "Paid Leave & Time Off Policy",
+    "category": "Parental Leave",
+    "requiredRole": "Employee"
+  },
+  {
+    "id": "P13",
+    "query": "Are prescription glasses and eye exams covered under company insurance?",
+    "targetDocTitle": "Medical Insurance & Wellness Benefits",
+    "category": "Vision Benefits",
+    "requiredRole": "Employee"
+  },
+  {
+    "id": "P14",
+    "query": "What is the disciplinary procedure if an employee leaks confidential code?",
+    "targetDocTitle": "Employee Handbook 2026",
+    "category": "Code of Conduct",
+    "requiredRole": "Employee"
+  },
+  {
+    "id": "P15",
+    "query": "How many casual emergency days can I take without prior planning?",
+    "targetDocTitle": "Paid Leave & Time Off Policy",
+    "category": "Casual Leave",
+    "requiredRole": "Employee"
+  },
+  {
+    "id": "P16",
+    "query": "What percentage of health premiums does the company pay for my family members?",
+    "targetDocTitle": "Medical Insurance & Wellness Benefits",
+    "category": "Dependent Coverage",
+    "requiredRole": "Employee"
+  },
+  {
+    "id": "P17",
+    "query": "What are the steps a manager must take before putting someone on probation?",
+    "targetDocTitle": "Manager Disciplinary & Performance Improvement Guidelines",
+    "category": "PIP Process",
+    "requiredRole": "Manager"
+  },
+  {
+    "id": "P18",
+    "query": "How long does a performance improvement plan typically run?",
+    "targetDocTitle": "Manager Disciplinary & Performance Improvement Guidelines",
+    "category": "PIP Duration",
+    "requiredRole": "Manager"
+  },
+  {
+    "id": "P19",
+    "query": "What is the standard severance payout formula when terminating an underperforming employee?",
+    "targetDocTitle": "Manager Disciplinary & Performance Improvement Guidelines",
+    "category": "Severance",
+    "requiredRole": "Manager"
+  },
+  {
+    "id": "P20",
+    "query": "What are the milestones an engineer must demonstrate to climb from Senior to Staff?",
+    "targetDocTitle": "Engineering Career Ladder & Promotion Matrix 2026",
+    "category": "Promotion Criteria",
+    "requiredRole": "Employee"
+  },
+  {
+    "id": "P21",
+    "query": "What kind of cross-team impact is expected of Principal Engineers?",
+    "targetDocTitle": "Engineering Career Ladder & Promotion Matrix 2026",
+    "category": "Engineering Levels",
+    "requiredRole": "Employee"
+  },
+  {
+    "id": "P22",
+    "query": "What are the equity vesting schedules and annual bonus targets for Vice Presidents?",
+    "targetDocTitle": "Executive Compensation & Equity Plan",
+    "category": "Executive Bonus",
+    "requiredRole": "HR Admin"
+  },
+  {
+    "id": "P23",
+    "query": "How are golden handcuffs and retention equity calculated for C-level executives?",
+    "targetDocTitle": "Executive Compensation & Equity Plan",
+    "category": "Executive Retention",
+    "requiredRole": "HR Admin"
+  },
+  {
+    "id": "P24",
+    "query": "Can an employee take a leave of absence to care for a sick parent under FMLA?",
+    "targetDocTitle": "Paid Leave & Time Off Policy",
+    "category": "Family Leave",
+    "requiredRole": "Employee"
+  },
+  {
+    "id": "P25",
+    "query": "What are the company's expectations around keeping customer data and intellectual property private?",
+    "targetDocTitle": "Employee Handbook 2026",
+    "category": "Security & Privacy",
+    "requiredRole": "Employee"
+  },
+  {
+    "id": "P26",
+    "query": "What health insurance provider or carrier network do we use for medical claims?",
+    "targetDocTitle": "Medical Insurance & Wellness Benefits",
+    "category": "Insurance Carrier",
+    "requiredRole": "Employee"
+  },
+  {
+    "id": "P27",
+    "query": "How many counseling sessions can an employee get every year at no cost?",
+    "targetDocTitle": "Medical Insurance & Wellness Benefits",
+    "category": "EAP Counseling",
+    "requiredRole": "Employee"
+  },
+  {
+    "id": "P28",
+    "query": "What is the rate at which paid time off accumulates each month?",
+    "targetDocTitle": "Paid Leave & Time Off Policy",
+    "category": "PTO Accrual",
+    "requiredRole": "Employee"
+  },
+  {
+    "id": "P29",
+    "query": "What is the family deductible limit for medical and dental expenses?",
+    "targetDocTitle": "Medical Insurance & Wellness Benefits",
+    "category": "Deductible",
+    "requiredRole": "Employee"
+  },
+  {
+    "id": "P30",
+    "query": "Who must approve a request if an employee wants to work from home on Wednesdays?",
+    "targetDocTitle": "Employee Handbook 2026",
+    "category": "Remote Approval",
+    "requiredRole": "Employee"
+  }
+]
