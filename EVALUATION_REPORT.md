@@ -163,6 +163,8 @@ node scripts/test_latency_cost.js
 
 # 5. Deliver Live OpenTelemetry Trace to Langfuse
 node scripts/send_test_trace.js
+```
+
 
 # Comprehensive Retrieval Evaluation Report (302-Chunk Corpus)
 
@@ -199,4 +201,4 @@ node scripts/send_test_trace.js
 **Production Default**: `Hybrid RRF + MiniLM (k=8)`.
 - Reaches **90% Recall@4** and **0.697 MRR** across 50 questions at only **27.8 ms CPU latency**.
 - Retains BM25 coverage for exact policy numbers, codes, and acronyms while utilizing the Cross-Encoder to repair candidate dilution on conversational queries.
-```
+
