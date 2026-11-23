@@ -1,0 +1,122 @@
+[
+  {
+    "id": "blind_01",
+    "query": "Who owns the code if I build an iOS app on my personal laptop over the weekend?",
+    "targetDocTitle": "Intellectual Property and Invention Assignment Policy",
+    "requiredRole": "Employee"
+  },
+  {
+    "id": "blind_02",
+    "query": "Can the company buy me an adjustable standing desk or monitor arm for my apartment?",
+    "targetDocTitle": "Workplace Ergonomics and Remote Office Safety Guidelines",
+    "requiredRole": "Employee"
+  },
+  {
+    "id": "blind_03",
+    "query": "How many days do I have to improve if my boss puts me on a formal PIP?",
+    "targetDocTitle": "Progressive Discipline and Performance Improvement Policy",
+    "requiredRole": "Manager"
+  },
+  {
+    "id": "blind_04",
+    "query": "What happens to my unvested stock options if our startup gets acquired and I get laid off?",
+    "targetDocTitle": "Executive Severance and Change in Control Guidelines",
+    "requiredRole": "HR Admin"
+  },
+  {
+    "id": "blind_05",
+    "query": "Can 1099 contractors take paid vacation or sick days during their contract?",
+    "targetDocTitle": "Contractor & Contingent Worker Leave Policy",
+    "requiredRole": "Employee"
+  },
+  {
+    "id": "blind_06",
+    "query": "Do I have to surrender my company laptop immediately when giving two weeks notice?",
+    "targetDocTitle": "Intellectual Property and Invention Assignment Policy",
+    "requiredRole": "Employee"
+  },
+  {
+    "id": "blind_07",
+    "query": "My wrist hurts from typing all day, can someone look at my desk setup?",
+    "targetDocTitle": "Workplace Ergonomics and Remote Office Safety Guidelines",
+    "requiredRole": "Employee"
+  },
+  {
+    "id": "blind_08",
+    "query": "Can I be fired immediately on the spot without a warning plan for stealing data?",
+    "targetDocTitle": "Progressive Discipline and Performance Improvement Policy",
+    "requiredRole": "Manager"
+  },
+  {
+    "id": "blind_09",
+    "query": "How many months of base pay do VP executives get if let go without cause?",
+    "targetDocTitle": "Executive Severance and Change in Control Guidelines",
+    "requiredRole": "HR Admin"
+  },
+  {
+    "id": "blind_10",
+    "query": "What happens if an executive gets caught committing fraud after taking severance money?",
+    "targetDocTitle": "Executive Severance and Change in Control Guidelines",
+    "requiredRole": "HR Admin"
+  },
+  {
+    "id": "blind_11",
+    "query": "Do I need permission before contributing bug fixes to open source GitHub repos?",
+    "targetDocTitle": "Intellectual Property and Invention Assignment Policy",
+    "requiredRole": "Employee"
+  },
+  {
+    "id": "blind_12",
+    "query": "Is there a dollar allowance to help set up my work from home office?",
+    "targetDocTitle": "Workplace Ergonomics and Remote Office Safety Guidelines",
+    "requiredRole": "Employee"
+  },
+  {
+    "id": "blind_13",
+    "query": "Can an employee challenge their bad performance review or PIP in writing?",
+    "targetDocTitle": "Progressive Discipline and Performance Improvement Policy",
+    "requiredRole": "Manager"
+  },
+  {
+    "id": "blind_14",
+    "query": "Are independent contractors allowed to bill hours while out sick with the flu?",
+    "targetDocTitle": "Contractor & Contingent Worker Leave Policy",
+    "requiredRole": "Employee"
+  },
+  {
+    "id": "blind_15",
+    "query": "If I invented a patent before joining this company, do they own it now?",
+    "targetDocTitle": "Intellectual Property and Invention Assignment Policy",
+    "requiredRole": "Employee"
+  },
+  {
+    "id": "blind_16",
+    "query": "What are the stages of counseling before an underperforming worker is let go?",
+    "targetDocTitle": "Progressive Discipline and Performance Improvement Policy",
+    "requiredRole": "Manager"
+  },
+  {
+    "id": "blind_17",
+    "query": "Do contractors get paid time off on federal holidays like Labor Day?",
+    "targetDocTitle": "Contractor & Contingent Worker Leave Policy",
+    "requiredRole": "Employee"
+  },
+  {
+    "id": "blind_18",
+    "query": "Can executives keep health insurance coverage paid for after being terminated?",
+    "targetDocTitle": "Executive Severance and Change in Control Guidelines",
+    "requiredRole": "HR Admin"
+  },
+  {
+    "id": "blind_19",
+    "query": "Who do I contact if I have carpal tunnel symptoms while typing at work?",
+    "targetDocTitle": "Workplace Ergonomics and Remote Office Safety Guidelines",
+    "requiredRole": "Employee"
+  },
+  {
+    "id": "blind_20",
+    "query": "Does an HRBP have to review a formal warning before a manager hands it out?",
+    "targetDocTitle": "Progressive Discipline and Performance Improvement Policy",
+    "requiredRole": "Manager"
+  }
+]

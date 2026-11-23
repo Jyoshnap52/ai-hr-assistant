@@ -1,55 +1,63 @@
+// server/src/services/documents/chunker.js
 /**
- * Splits document text into structured chunks with chunk index and section metadata.
+ * Sentence-aware high-resolution chunker.
+ * Slices documents into precise ~200-character semantic chunks for production retrieval.
  */
-export function chunkText(rawText, chunkSize = 500, overlap = 100) {
+export function chunkText(rawText, maxChunkSize = 220, overlap = 45) {
   if (!rawText || typeof rawText !== 'string') return [];
 
-  // Clean extra whitespace
   const cleanedText = rawText
     .replace(/\r\n/g, '\n')
     .replace(/\t/g, ' ')
     .replace(/\n{3,}/g, '\n\n')
     .trim();
 
-  // Split by paragraphs first for coherent chunking
   const paragraphs = cleanedText.split(/\n\n+/);
   const chunks = [];
-  let currentChunk = '';
   let currentSection = 'General Overview';
   let pageCounter = 1;
 
-  for (let i = 0; i < paragraphs.length; i++) {
-    const para = paragraphs[i].trim();
-    if (!para) continue;
+  for (const para of paragraphs) {
+    const trimmedPara = para.trim();
+    if (!trimmedPara) continue;
 
-    // Detect section headers (e.g., "Section 3: Paid Leave", "1. Code of Conduct")
-    if (/^(section|article|chapter|\d+\.|\b[A-Z\s]{4,}\b)/i.test(para) && para.length < 80) {
-      currentSection = para;
+    // Detect section headers
+    if (/^(section|article|chapter|\d+\.|\b[A-Z\s]{4,}\b)/i.test(trimmedPara) && trimmedPara.length < 80) {
+      currentSection = trimmedPara;
     }
 
-    if ((currentChunk + ' ' + para).length <= chunkSize) {
-      currentChunk += (currentChunk ? '\n\n' : '') + para;
-    } else {
-      if (currentChunk.trim()) {
-        chunks.push({
-          content: currentChunk.trim(),
-          section: currentSection,
-          pageNumber: Math.max(1, Math.floor(chunks.length / 3) + 1)
-        });
+    // Split paragraph by sentences
+    const sentences = trimmedPara.match(/[^.!?]+[.!?]+(\s+|$)|[^.!?]+$/g) || [trimmedPara];
+    let currentChunk = '';
+
+    for (const sentence of sentences) {
+      const cleanSentence = sentence.trim();
+      if (!cleanSentence) continue;
+
+      if ((currentChunk + ' ' + cleanSentence).length <= maxChunkSize) {
+        currentChunk += (currentChunk ? ' ' : '') + cleanSentence;
+      } else {
+        if (currentChunk.trim().length > 30) {
+          chunks.push({
+            content: currentChunk.trim(),
+            section: currentSection,
+            pageNumber: Math.max(1, Math.floor(chunks.length / 4) + 1)
+          });
+        }
+        // Retain overlap from end of previous chunk
+        const words = currentChunk.split(' ');
+        const overlapSlice = words.slice(-Math.min(words.length, 5)).join(' ');
+        currentChunk = overlapSlice + ' ' + cleanSentence;
       }
-      // Start next chunk with overlap
-      const words = currentChunk.split(' ');
-      const overlapWords = words.slice(-Math.min(words.length, Math.floor(overlap / 6))).join(' ');
-      currentChunk = overlapWords + (overlapWords ? '\n\n' : '') + para;
     }
-  }
 
-  if (currentChunk.trim()) {
-    chunks.push({
-      content: currentChunk.trim(),
-      section: currentSection,
-      pageNumber: Math.max(1, Math.floor(chunks.length / 3) + 1)
-    });
+    if (currentChunk.trim().length > 30) {
+      chunks.push({
+        content: currentChunk.trim(),
+        section: currentSection,
+        pageNumber: Math.max(1, Math.floor(chunks.length / 4) + 1)
+      });
+    }
   }
 
   return chunks;

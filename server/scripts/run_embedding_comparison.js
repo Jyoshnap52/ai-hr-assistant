@@ -79,11 +79,14 @@ async function run() {
   // 4. Hybrid RRF + Neural Cross-Encoder Reranker
   const rerankResults = await evaluateMode('hybrid_rerank', '4. Hybrid RRF + Cross-Encoder Rerank');
 
+  // 5. Query Rewrite + Hybrid + Rerank
+  const rewriteResults = await evaluateMode('rewrite_hybrid_rerank', '5. Query Rewrite + Hybrid + Rerank');
+
   // Print Complete Comparison Table
   console.log('\n========================================================================');
   console.log('🏆 COMPLETE 4-STAGE RETRIEVAL ABLATION ON 30 PARAPHRASE QUESTIONS');
   console.log('========================================================================');
-  console.table([bm25Results, denseResults, hybridResults, rerankResults]);
+  console.table([bm25Results, denseResults, hybridResults, rerankResults, rewriteResults]);
 }
 
 run().catch(console.error);

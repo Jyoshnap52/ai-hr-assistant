@@ -114,49 +114,49 @@
   {
     "id": "P17",
     "query": "What are the steps a manager must take before putting someone on probation?",
-    "targetDocTitle": "Manager Disciplinary & Performance Improvement Guidelines",
+    "targetDocTitle": "Manager Disciplinary & Performance Improvement Policy",
     "category": "PIP Process",
     "requiredRole": "Manager"
   },
   {
     "id": "P18",
     "query": "How long does a performance improvement plan typically run?",
-    "targetDocTitle": "Manager Disciplinary & Performance Improvement Guidelines",
+    "targetDocTitle": "Manager Disciplinary & Performance Improvement Policy",
     "category": "PIP Duration",
     "requiredRole": "Manager"
   },
   {
     "id": "P19",
     "query": "What is the standard severance payout formula when terminating an underperforming employee?",
-    "targetDocTitle": "Manager Disciplinary & Performance Improvement Guidelines",
+    "targetDocTitle": "Manager Disciplinary & Performance Improvement Policy",
     "category": "Severance",
     "requiredRole": "Manager"
   },
   {
     "id": "P20",
     "query": "What are the milestones an engineer must demonstrate to climb from Senior to Staff?",
-    "targetDocTitle": "Engineering Career Ladder & Promotion Matrix 2026",
+    "targetDocTitle": "Engineering Department Promotion Bands & Merit Raise Matrix",
     "category": "Promotion Criteria",
-    "requiredRole": "Employee"
+    "requiredRole": "Manager"
   },
   {
     "id": "P21",
     "query": "What kind of cross-team impact is expected of Principal Engineers?",
-    "targetDocTitle": "Engineering Career Ladder & Promotion Matrix 2026",
+    "targetDocTitle": "Engineering Department Promotion Bands & Merit Raise Matrix",
     "category": "Engineering Levels",
-    "requiredRole": "Employee"
+    "requiredRole": "Manager"
   },
   {
     "id": "P22",
     "query": "What are the equity vesting schedules and annual bonus targets for Vice Presidents?",
-    "targetDocTitle": "Executive Compensation & Equity Plan",
+    "targetDocTitle": "Executive Compensation Bands & Retention Bonuses 2026",
     "category": "Executive Bonus",
     "requiredRole": "HR Admin"
   },
   {
     "id": "P23",
     "query": "How are golden handcuffs and retention equity calculated for C-level executives?",
-    "targetDocTitle": "Executive Compensation & Equity Plan",
+    "targetDocTitle": "Executive Compensation Bands & Retention Bonuses 2026",
     "category": "Executive Retention",
     "requiredRole": "HR Admin"
   },
