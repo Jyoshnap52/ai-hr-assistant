@@ -19,10 +19,15 @@ let lastIndexedCount = 0;
  * Add document chunks to vector & document store with role metadata
  */
 export async function addChunksToVectorStore(chunks, documentId, documentTitle, options = {}) {
-  const accessRoles = options.accessRoles || ['Employee', 'Manager', 'HR Admin'];
+  // Defensive RBAC Assertion: Fail fast if tags are missing or empty
+  if (!options.accessRoles || !Array.isArray(options.accessRoles) || options.accessRoles.length === 0) {
+    throw new Error(`🚨 [RBAC Integrity Error] Document "${documentTitle}" has missing or empty accessRoles! Untagged documents are blocked.`);
+  }
+
+  const accessRoles = options.accessRoles;
   const version = options.version || '1.0';
   const isSuperseded = options.isSuperseded || false;
-
+ 
   // Use Promise.all with async so await works properly
   const preparedChunks = await Promise.all(
     chunks.map(async (chunk, index) => {

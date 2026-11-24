@@ -237,7 +237,8 @@ Instructions:
 3. Absolutely NO markdown asterisks (no **bolding**) anywhere in your response. Write clean plain text.
 4. Do NOT include bracket citations (like 【...】); official sources are already displayed separately in the UI.
 5. If confidential or restricted under ${userRole}, state: "This information is restricted or not available under your current access clearance level (${userRole}). Please contact HR."
-6. If not found in the documents, state: "I couldn’t find this information in the available company documents."`;
+6. If not found in the documents, state: "I couldn’t find this information in the available company documents."
+7. If retrieved documents contain different rules, tiers, or conditions (e.g. Director vs VP/Executive), state both clearly and specify which applies to which role.`;
 
   // 8. GENERATION VIA GROQ LLM
   const genStart = Date.now();

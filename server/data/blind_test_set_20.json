@@ -26,7 +26,7 @@
   {
     "id": "blind_05",
     "query": "Can 1099 contractors take paid vacation or sick days during their contract?",
-    "targetDocTitle": "Contractor & Contingent Worker Leave Policy",
+    "targetDocTitle": "Contractor, Freelancer & Temporary Worker Guidelines",
     "requiredRole": "Employee"
   },
   {
@@ -80,7 +80,7 @@
   {
     "id": "blind_14",
     "query": "Are independent contractors allowed to bill hours while out sick with the flu?",
-    "targetDocTitle": "Contractor & Contingent Worker Leave Policy",
+    "targetDocTitle": "Contractor, Freelancer & Temporary Worker Guidelines",
     "requiredRole": "Employee"
   },
   {
@@ -98,7 +98,7 @@
   {
     "id": "blind_17",
     "query": "Do contractors get paid time off on federal holidays like Labor Day?",
-    "targetDocTitle": "Contractor & Contingent Worker Leave Policy",
+    "targetDocTitle": "Contractor, Freelancer & Temporary Worker Guidelines",
     "requiredRole": "Employee"
   },
   {
