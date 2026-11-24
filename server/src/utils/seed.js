@@ -221,7 +221,7 @@ Employees may work internationally from an approved country for up to 30 busines
       effectiveDate: '2026-02-01',
       content: `CONFIDENTIAL: FOR MANAGERS & HR ONLY.
 Section 1: Performance Improvement Plans (PIP)
-A formal PIP must span 30 to 60 calendar days with weekly documented checkpoints. The employee must meet at least 80% of documented deliverables to exit the PIP successfully. Failure to do so initiates formal separation with standard 2 weeks severance.
+A formal PIP must span 30, 60, or 90 calendar days with weekly documented checkpoints. The employee must meet at least 80% of documented deliverables to exit the PIP successfully. Failure to do so initiates formal separation with standard 2 weeks severance.
 
 Section 2: Disciplinary Warning Framework
 Verbal counseling must precede a written warning. Two written warnings within a 12-month window allow the manager to request immediate role reassignment or termination review with HR approval.
@@ -1736,7 +1736,7 @@ Severance agreements incorporate a mandatory clawback provision requiring full f
         const rawContent = demoDocuments[i].content || doc.content;
         const chunks = chunkText(rawContent, 140, 30);
         const count = await addChunksToVectorStore(chunks, doc._id, doc.title, {
-          accessRoles: doc.accessRoles,
+          accessRoles: doc.accessRoles || doc.allowedRoles,
           version: doc.version,
           effectiveDate: doc.effectiveDate
         });
@@ -1757,7 +1757,7 @@ Severance agreements incorporate a mandatory clawback provision requiring full f
     for (const doc of memoryStore.documents) {
       const chunks = chunkText(doc.content, 140, 30);
       await addChunksToVectorStore(chunks, doc._id, doc.title, {
-        accessRoles: doc.accessRoles,
+        accessRoles: doc.accessRoles || doc.allowedRoles,
         version: doc.version,
         effectiveDate: doc.effectiveDate
       });

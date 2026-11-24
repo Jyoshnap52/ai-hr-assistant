@@ -1,9 +1,13 @@
 import { connectDB } from '../src/config/db.js';
+import { seedInitialData } from '../src/utils/seed.js';
 import { answerHRQuestion } from '../src/services/rag/ragService.js';
 import { evaluateWithLLMJudge } from '../src/services/eval/ragasEvaluator.js';
 
 async function runQualityEval() {
   await connectDB();
+  console.log('🔄 Seeding in-memory corpus with 302 chunks...');
+  await seedInitialData();
+  console.log('✅ Corpus seeded successfully.\n');
 
   const testCases = [
     {
@@ -46,7 +50,7 @@ async function runQualityEval() {
     console.log(`[${i + 1}/${testCases.length}] Testing: "${item.q}" (${item.role})`);
 
     const genStart = Date.now();
-    const ragRes = await answerHRQuestion(item.q, 4, { role: item.role, email: 'eval_user@company.com' });
+    const ragRes = await answerHRQuestion(item.q, 4, { role: item.role, email: 'eval_user@company.com' }, { skipCache: true });
     console.log(`  -> 120B Answer Generated (${Date.now() - genStart}ms)`);
 
     const judgeStart = Date.now();
