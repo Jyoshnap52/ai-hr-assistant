@@ -117,6 +117,29 @@ Evaluated across two distinct probe sets to verify pre-retrieval containment:
 
 ---
 
+## 🚦 Automated CI Quality Gate & Regression Defense
+
+To enforce enterprise production standards, a GitHub Actions workflow (`rag-eval-gate.yml`) runs automatically on every pull request targeting `main`. Pull requests are strictly blocked from merging via branch protection rules unless all three automated criteria pass:
+
+| Gate Criterion | Verification Scope | Enforced Floor | Observed Performance | Status |
+| :--- | :--- | :---: | :---: | :---: |
+| **1. RBAC Pre-Retrieval Containment** | 25 Adversarial Probes (15 baseline + 10 fresh) | **0 leaks** | **0 leaks (100% contained)** | ✅ PASS |
+| **2. Retrieval Recall@4** | 20 Held-Out Blind Queries | **≥ 80.0%** (16/20) | **95.0% (19/20)** | ✅ PASS |
+| **3. LLM-as-a-Judge Faithfulness** | Meta Llama 3.3 70B (RAGAS standard) | **≥ 85.0%** (17/20) | **95.0% (19/20)** *(95–98% avg score)* | ✅ PASS |
+
+> **Latency Exclusion Note**: Query latency is monitored empirically (p50 ~1.5–2.5s) but intentionally excluded from the CI gate condition to prevent flakiness caused by external LLM provider API load variations.
+
+### Empirical CI Verification & Branch Protection in Action
+
+GitHub branch protection rules on `main` require the `RAG Quality & Security CI Gate` to pass before merging is unlocked. Below is the verified before-and-after proof from actual repository pull requests:
+
+| ✅ Verified Passing PR (#1) | ❌ Deliberate Sabotage Test (#2) |
+| :---: | :---: |
+| ![CI Gate Pass](docs/images/ci_gate_pass.jpg) | ![CI Gate Blocked Fail](docs/images/ci_gate_blocked_fail.jpg) |
+| *All 3 quality criteria pass; merge unlocked.* | *RBAC filter bypassed; 19 leaks detected; merge blocked.* |
+
+---
+
 ## 🛠️ Tech Stack
 
 | Layer | Technologies |
