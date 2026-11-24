@@ -74,7 +74,8 @@ export async function getEligibleChunks(userRole = 'Employee') {
     chunks = (memoryStore.documentChunks || []).filter((chunk) => {
       const allowedRoles = chunk.accessRoles || ['Employee', 'Manager', 'HR Admin'];
       const notSuperseded = !chunk.isSuperseded;
-      return allowedRoles.includes(userRole) && notSuperseded;
+      // SIMULATED RBAC BYPASS BUG: allow all roles access to all chunks
+      return notSuperseded;
     });
   }
 
