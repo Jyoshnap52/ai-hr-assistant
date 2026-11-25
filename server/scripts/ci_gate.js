@@ -30,7 +30,7 @@ Output JSON only:
 
   for (let attempt = 0; attempt < 2; attempt++) {
     try {
-      const raw = await getGroqCompletion(systemPrompt, userPrompt, 'llama-3.3-70b-versatile');
+      const raw = await getGroqCompletion(systemPrompt, userPrompt, 'llama3-8b-8192');
       const match = raw.match(/\{[\s\S]*?\}/);
       if (match) {
         const parsed = JSON.parse(match[0]);
@@ -40,11 +40,13 @@ Output JSON only:
       }
     } catch (err) {
       console.warn(`Judge attempt ${attempt + 1} error:`, err.message);
-      await new Promise(r => setTimeout(r, 1000));
+      await new Promise(r => setTimeout(r, 5000));
     }
   }
 
-  return { verdict: 'FAIL', faithfulnessScore: 0.0, reasoning: 'Judge error or timeout' };
+  // Return null to signal the caller to skip this row (don't count as FAIL)
+  // This prevents Groq rate-limit errors from poisoning the pass rate
+  return null;
 }
 
 async function runCIGate() {
@@ -127,6 +129,7 @@ async function runCIGate() {
 
   let retrievalHits = 0;
   let judgePasses = 0;
+  let judgedCount = 0;
   let totalFaithfulness = 0;
 
   for (let i = 0; i < dataset.length; i++) {
@@ -145,6 +148,15 @@ async function runCIGate() {
     if (isHit) retrievalHits++;
 
     const judge = await judgeAnswer(item.query, chunks, ragRes.answer);
+
+    if (judge === null) {
+      // Judge API failed — abort immediately. Partial results are unreliable.
+      console.error(`\n❌ CI GATE ABORTED: Judge API failed on row ${i + 1}/${dataset.length}.`);
+      console.error('Groq quota may be exhausted. Re-run this job when the quota resets (usually within 1 hour).\n');
+      process.exit(1);
+    }
+
+    judgedCount++;
     const score = judge.faithfulnessScore ?? (judge.verdict === 'PASS' ? 1.0 : 0.0);
     totalFaithfulness += score;
 
@@ -152,12 +164,12 @@ async function runCIGate() {
     if (isPass) judgePasses++;
 
     console.log(`Hit: ${isHit ? 'HIT' : 'MISS'} | Judge: ${isPass ? 'PASS' : 'FAIL'} (${score.toFixed(2)})`);
-    await new Promise(r => setTimeout(r, 600));
+    await new Promise(r => setTimeout(r, 3000));
   }
 
   const recallRate = retrievalHits / dataset.length;
-  const judgePassRate = judgePasses / dataset.length;
-  const avgFaithfulness = totalFaithfulness / dataset.length;
+  const judgePassRate = judgePasses / judgedCount;
+  const avgFaithfulness = totalFaithfulness / judgedCount;
 
   const recallPassed = recallRate >= THRESHOLDS.MIN_RECALL_AT_4;
   const judgePassed = judgePassRate >= THRESHOLDS.MIN_JUDGE_PASS_RATE;
@@ -167,7 +179,7 @@ async function runCIGate() {
   console.log('========================================================================');
   console.log(`1. RBAC Data Leaks:    ${rbacLeaks} leaks (Max allowed: ${THRESHOLDS.MAX_RBAC_LEAKS})          -> ${rbacPassed ? '✅ PASS' : '❌ FAIL'}`);
   console.log(`2. Retrieval Recall@4: ${(recallRate * 100).toFixed(1)}% (${retrievalHits}/${dataset.length}) (Floor: ${(THRESHOLDS.MIN_RECALL_AT_4 * 100).toFixed(0)}%)   -> ${recallPassed ? '✅ PASS' : '❌ FAIL'}`);
-  console.log(`3. Judge Pass Rate:    ${(judgePassRate * 100).toFixed(1)}% (${judgePasses}/${dataset.length}) (Floor: ${(THRESHOLDS.MIN_JUDGE_PASS_RATE * 100).toFixed(0)}%)   -> ${judgePassed ? '✅ PASS' : '❌ FAIL'}`);
+  console.log(`3. Judge Pass Rate:    ${(judgePassRate * 100).toFixed(1)}% (${judgePasses}/${judgedCount}) (Floor: ${(THRESHOLDS.MIN_JUDGE_PASS_RATE * 100).toFixed(0)}%)   -> ${judgePassed ? '✅ PASS' : '❌ FAIL'}`);
   console.log(`   (Average Faithfulness Score: ${(avgFaithfulness * 100).toFixed(1)}%)`);
   console.log('========================================================================\n');
 
