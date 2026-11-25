@@ -30,7 +30,7 @@ Output JSON only:
 
   for (let attempt = 0; attempt < 2; attempt++) {
     try {
-      const raw = await getGroqCompletion(systemPrompt, userPrompt, 'llama-3.3-70b-versatile');
+      const raw = await getGroqCompletion(systemPrompt, userPrompt, 'llama3-8b-8192');
       const match = raw.match(/\{[\s\S]*?\}/);
       if (match) {
         const parsed = JSON.parse(match[0]);
@@ -40,7 +40,7 @@ Output JSON only:
       }
     } catch (err) {
       console.warn(`Judge attempt ${attempt + 1} error:`, err.message);
-      await new Promise(r => setTimeout(r, 2000));
+      await new Promise(r => setTimeout(r, 5000));
     }
   }
 
@@ -164,7 +164,7 @@ async function runCIGate() {
     if (isPass) judgePasses++;
 
     console.log(`Hit: ${isHit ? 'HIT' : 'MISS'} | Judge: ${isPass ? 'PASS' : 'FAIL'} (${score.toFixed(2)})`);
-    await new Promise(r => setTimeout(r, 600));
+    await new Promise(r => setTimeout(r, 3000));
   }
 
   const recallRate = retrievalHits / dataset.length;
